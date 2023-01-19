@@ -1,0 +1,274 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "Essa API foi feita para um teste técnico, com o objetivo de criar Estabelecimentos e os Horários",
+        "version": "1.0.0",
+        "title": "Restaurants CRUD",
+        "contact": {
+            "email": "dgoncalves484@gmail.com"
+        }
+    },
+    "host": "localhost:3000",
+    "tags": [
+        {
+            "name": "Estabelecimentos",
+            "description": "Criação de Estabelecimentos"
+        },
+        {
+            "name": "Funcionamentos",
+            "description": "Verificar se o Estabelecimento está aberto ou fechado"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/estabelecimentos": {
+            "post": {
+                "tags": [
+                    "Estabelecimentos"
+                ],
+                "summary": "Adicionar Estabelecimento e Horários",
+                "description": "Deve se colocar os Horários no padrão (18:00:00 19:00:00)(Horário de aberta espaço Horário de Fechamento)e se não for abrir no dia colocar null",
+                "parameters":[
+                    
+                    { "in": "body",
+                    "name": "body",
+                    "description": "Atualizar dados",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/Dados"
+                    }}
+                    ],
+                "responses": {
+                    "201": {
+                        "description": "Create",
+                        "item": {
+                            "$ref": "#/components/schemas/Dados"
+                        }
+                    },
+                    "400": {
+                        "description": "Dados errados"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Estabelecimentos"
+                ],
+                "summary": "Busca os Estabelecimentos",
+                "description": "Busca todos os estabelecimentos",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Busca correta",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/Dados"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Falha na busca"
+                    }
+                }
+            }
+        },
+        "/estabelecimentos/{id}": {
+            "put": {
+                "tags": [
+                    "Estabelecimentos"
+                ],
+                "summary": "Atualizar os dados de Estabelecimentos e Horários",
+                "description": "",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Atualizar dados",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Dados"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Estabelecimento",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Id Inválido"
+                    },
+                    "200": {
+                        "description": "Dados atualizados",
+                        "intem": {
+                            "$ref": "#/components/schemas/Dados"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Estabelecimentos"
+                ],
+                "summary": "Deletar um Estabelecimento",
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Estabelecimento",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Id inválido"
+                    },
+                    "204": {
+                        "description": "Deletado"
+                    }
+                }
+            }
+        },
+        "/funcionamentos/{id}": {
+            "post": {
+                "tags": [
+                    "Funcionamentos"
+                ],
+                "summary": "Verificar se o estabelecimento está aberto ou fechado",
+                "description": "",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Estabelecimento",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Json do Estabelecimento e dos Horários",
+                        "required": true,
+                        "schema": {
+                            "data": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Verificação"
+                    },
+                    "400": {
+                        "description": "Id inválido"
+                    }
+                }
+            }
+        }
+    },
+
+    "components": {
+        "schemas":{
+            "ApiResponse": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Estabelecimentos": {
+                "type":"object",
+                "properties": {
+                    "nome": {
+                        "type": "string"
+                    },
+                    "documento": {
+                        "type": "string"
+                    },
+                    "tipo": {
+                        "type": "string"
+                    },
+                    "CEP": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Dados": {
+                "type":"object",
+                "properties": {
+                    "estabelecimentos": {
+                        "$ref": "#/components/schemas/Estabelecimentos"
+                    },
+                    "horarios": {
+                        "$ref": "#/components/schemas/Horarios"
+                    }
+                }
+            },
+            "Horarios": {
+                "type":"object",
+                "properties": {
+                    "domingo": {
+                        "type": "string"
+                    },
+                    "segunda": {
+                        "type": "string"
+                    },
+                    "terca": {
+                        "type": "string"
+                    },
+                    "quarta": {
+                        "type": "string"
+                    },
+                    "quinta": {
+                        "type": "string"
+                    },
+                    "sexta": {
+                        "type": "string"
+                    },
+                    "sabado": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+
+}
+    
