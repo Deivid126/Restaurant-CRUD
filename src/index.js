@@ -23,14 +23,14 @@ app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(SwaggerDocs))
         console.error('Unable to connect to the database: ', error);
      });
 
-// (async () => {
+(async () => {
 
-//    Horarios.hasOne(Estabelecimentos);
-//    Estabelecimentos.belongsTo(Horarios);
+   Horarios.hasOne(Estabelecimentos);
+   Estabelecimentos.belongsTo(Horarios);
 
-//     await Horarios.sync({ force: true }).then(() => console.log("Ok E"));
-//     await Estabelecimentos.sync({force:true}).then(() => console.log("H ok"));
-// })();
+    await Horarios.sync().then(() => console.log("Ok E"));
+    await Estabelecimentos.sync().then(() => console.log("H ok"));
+})();
      
 
 
